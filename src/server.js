@@ -3,7 +3,9 @@ import { logger } from './utils/pino.js';
 import cors from 'cors';
 import env from './utils/env.js';
 import { ENV_VARS } from "./constants/constants.js";
-import { getAllContacts, getContactById } from "./services/contacts.js";
+import router from './routers/contacts.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import { errorHandler } from './middlewares/errorHandler.js';
 
 
 
@@ -17,50 +19,11 @@ export const setupServer = () => {
     app.use(logger);
     app.use(cors());
 
-    app.get('/contacts', async (req, res) => {
-        const contacts = await getAllContacts();
+    app.use(router);
 
-        res.json({
-            status: 200,
-            data: contacts,
-            message: "Successfully found contacts!"
-        });
-    });
+    app.use('*', notFoundHandler);
 
-
-    app.get('/contacts/:contactId', async (req, res) => {
-        try {
-            const { contactId } = req.params;
-            const contact = await getContactById(contactId);
-
-            if (!contact) {
-                res.status(404).json({
-                    message: `Contact with id ${contactId} not found`,
-                });
-                return;
-            };
-
-            res.json({
-                status: 200,
-                data: contact,
-                message: `Successfully found contact with id ${contactId}`,
-            });
-        } catch (error) {
-            if (error.message.includes("Cast to ObjectId failed")) {
-                error.status = 404;
-            };
-            const { status = 500 } = error;
-            res.status(status).json({
-                message: error.message,
-            });
-        };
-    });
-
-    app.use((req, res) => {
-        res.status(404).json({
-            message: "Not Found",
-        });
-    });
+    app.use(errorHandler);
 
 
     app.listen(PORT, () => {
