@@ -7,3 +7,4 @@ export const ENV_VARS = {
 };
 
 export const typeList = ['work', 'home', 'personal'];
+
