@@ -1,11 +1,9 @@
-const parseBoolean = value => {
+const parseBoolean = (value) => {
     if(typeof value !== "string") return;
 
-    if(!["true", "false"].includes(value)) return;
+    if (!["true", "false"].includes(value)) return;
 
-    const parsedValue = Boolean(value);
-
-    return parsedValue;
+    return value;
 };
 
 const parseFilterParams = ({ isFavourite }) => {

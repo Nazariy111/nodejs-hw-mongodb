@@ -20,11 +20,9 @@ export const getAllContacts = async ({
         contactsQuery.where("isFavourite").equals(filter.isFavourite);
     };
 
-    console.log(`THE FILTER IS_____${filter.isFavourite}`);
+    const contactsCount = await ContactsCollection.find().merge(contactsQuery).countDocuments();
 
     const contacts = await contactsQuery.skip(skip).limit(limit).sort({ [sortBy]: sortOrder }).exec();
-
-    const contactsCount = await ContactsCollection.find().merge(contactsQuery).countDocuments();
 
     const paginationData = calculatePaginationData(contactsCount, perPage, page);
 
