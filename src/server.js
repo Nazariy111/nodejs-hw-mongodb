@@ -3,10 +3,10 @@ import { logger } from './utils/pino.js';
 import cors from 'cors';
 import env from './utils/env.js';
 import { ENV_VARS } from "./constants/constants.js";
-import router from './routers/contacts.js';
+import router from './routers/index.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
-
+import cookieParser from 'cookie-parser';
 
 
 const PORT = Number(env(ENV_VARS.PORT, '3000'));
@@ -15,6 +15,8 @@ export const setupServer = () => {
     const app = express();
 
     app.use(express.json());
+
+    app.use(cookieParser());
 
     app.use(logger);
     app.use(cors());

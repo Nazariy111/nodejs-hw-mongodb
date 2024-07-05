@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 import { typeList } from "../../constants/constants.js";
 
+
 const contactsSchema = new Schema(
     {
         name: {
@@ -24,6 +25,11 @@ const contactsSchema = new Schema(
             type: String,
             enum: typeList,
             default: 'personal',
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: "user",
+            required: true,
         },
     },
     {
