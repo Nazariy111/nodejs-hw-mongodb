@@ -38,7 +38,7 @@ export const getContactByIdController = async (req, res,next) => {
         const contact = await getContactById({_id: contactId, userId});
 
         if (!contact) {
-            next(createHttpError(404, 'Student not found'));
+            next(createHttpError(404, 'Contact not found'));
             return;
         };
         res.json({
@@ -95,11 +95,6 @@ export const patchContactController = async (req, res, next) => {
         ...req.body,
         photo: photoUrl,
     });
-
-    if (!result) {
-        next(createHttpError(404, 'Student not found'));
-        return;
-    }
 
     if (!result) {
         next(createHttpError(404, 'Contact not found'));
