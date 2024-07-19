@@ -16,13 +16,14 @@ export const setupServer = () => {
     const app = express();
 
     app.use(express.json());
-    
-    app.use('/api-docs', swaggerDocs());
-
     app.use(cookieParser());
 
     app.use(logger);
     app.use(cors());
+
+    app.use('/api-docs', swaggerDocs());
+
+
 
     app.use(router);
 
